@@ -36,11 +36,15 @@ function initMap() {
     var features = [{
             position: new google.maps.LatLng(-2.188050, -79.891388)
         }, {
-            position: new google.maps.LatLng(-0.967653, -80.70891010000003)
+            position: new google.maps.LatLng(-0.940794, -80.735451)
 
         },
         {
-            position: new google.maps.LatLng(0.8891816086886405, -79.80636620970313)
+            position: new google.maps.LatLng(0.890369, -79.817292)
+
+        },
+        {
+            position: new google.maps.LatLng(-2.2001875, -80.976634)
 
         }
     ];
