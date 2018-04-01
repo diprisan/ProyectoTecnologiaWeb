@@ -9,36 +9,41 @@
 
   function initMap() {
 
-      /* Creamos ventanas de información de los hoteles */
+      /* Creamos ventanas de información de las distribuidoras */
+
       infowindow1 = new google.maps.InfoWindow({
-          content: "<h2>Guayaquil</h2> <a href='#' onclick=' cambiargraph(1);llamarGraph1(); return false;'>Ventas  2016-2017</a><br />" +
-              "<a href='#' onclick='cambiargraph(2);llamarGraph2(1,\"Guayaquil\"); return false;'>Cantidad de Clientes 2016-2017</a> <br />" +
+          content: "<h2>Guayaquil</h2> <a href='#' onclick=' cambiargraph(1);llamarGraph1(); return false;'>Ventas Por Distribuidoras 2010-2017</a><br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(1,\"Guayaquil\"); return false;'>Cantidad de Carros Vendidos 2010-2017</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(1,\"Guayaquil\"); return false;'>Cantidad de Carros por Vendedor 2010-2017</a> <br />"
       });
       infowindow2 = new google.maps.InfoWindow({
-          content: "<h2>Manta</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas  2016-2017</a><br />" +
-              "<a href='#' onclick='cambiargraph(2);llamarGraph2(2, \"Manta\"); return false;'>Cantidad de Clientes 2016-2017</a> <br />" +
+          content: "<h2>Manta</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas Por Distribuidoras 2010-2017</a><br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(2, \"Manta\"); return false;'>Cantidad de Carros Vendidos 2010-2017</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(2,\"Manta\"); return false;'>Cantidad de Carros por Vendedor 2010-2017</a> <br />"
       });
       infowindow3 = new google.maps.InfoWindow({
-          content: "<h2>Atacames</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas  2016-2017</a> <br />" +
-              "<a href='#' onclick='cambiargraph(2);llamarGraph2(3, \"Atacames\"); return false;'>Cantidad de Clientes 2016-2017</a> <br />" +
+          content: "<h2>Atacames</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas Por Distribuidoras 2010-2017</a> <br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(3, \"Atacames\"); return false;'>Cantidad de Carros Vendidos 2010-2017</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(3,\" Atacames\"); return false;'>Cantidad de Carros por Vendedor 2010-2017</a> <br />"
       });
       infowindow4 = new google.maps.InfoWindow({
-          content: "<h2>Salinas</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas 2016-2017</a><br />" +
-              "<a href='#' onclick='cambiargraph(2);llamarGraph2(4, \"Salinas\"); return false;'>Cantidad de Clientes 2016-2017</a> <br />" +
+          content: "<h2>Salinas</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas Por Distribuidoras 2010-2017</a><br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(4, \"Salinas\"); return false;'>Cantidad de Carros Vendidos 2010-2017</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(4,\"Salinas\"); return false;'>Cantidad de Carros por Vendedor 2010-2017</a> <br />"
       });
       infowindow5 = new google.maps.InfoWindow({
-          content: "<h2>Salinas</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas 2016-2017</a><br />" +
-              "<a href='#' onclick='cambiargraph(2);llamarGraph2(5, \"Salinas\"); return false;'>Cantidad de Clientes 2016-2017</a> <br />" +
+          content: "<h2>Salinas</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas Por Distribuidoras 2010-2017</a><br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(5, \"Salinas\"); return false;'>Cantidad de Carros Vendidos 2010-2017</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(5,\"Salinas\"); return false;'>Cantidad de Carros por Vendedor 2010-2017</a> <br />"
       });
 
       /* Beaches son los puntos en el mapa de la distribuidoras */
 
       beaches = [
-          ['Gye', -2.188050, -79.891388, 1, ''],
-          ['Manta', -0.940794, -80.735451, 2, ''],
-          ['Atacames', 0.890369, -79.817292, 3, ''],
-          ['Salinas', -2.2001875, -80.976634, 4, ''],
-
+          ['Gye', -2.188050, -79.891388, 0, ''],
+          ['Manta', -0.940794, -80.735451, 1, ''],
+          ['Atacames', 0.890369, -79.817292, 2, ''],
+          ['Salinas', -2.2001875, -80.976634, 3, '']
       ];
 
       map = new google.maps.Map(document.getElementById('map'), {
@@ -48,6 +53,7 @@
           },
 
 
+          //center: { lat: -33.9, lng: 151.2 },
           zoom: 6
       });
 
@@ -78,6 +84,8 @@
       // Origins, anchor positions and coordinates of the marker increase in the X
       // direction to the right and in the Y direction down.
       var image = {
+          //  url: 'https://mt.googleapis.com/vt/icon/name=icons/onion/bank-dollar.png',
+          //url: 'images/loc.png',
           // This marker is 20 pixels wide by 32 pixels high.
           size: new google.maps.Size(32, 32),
           // The origin for this image is (0, 0).
@@ -171,7 +179,7 @@
                   infowindow3.close();
                   infowindow5.close();
                   infowindow1.close();
-                  infowindow5.open(map, marker3);
+                  infowindow4.open(map, marker3);
               });
           }
           if (i == 4) {
