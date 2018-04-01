@@ -10,6 +10,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Hotel Paradise&mdash; </title>
+
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        
+        #map {
+            height: 50%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        
+        html,
+        body {
+            height: 50%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
     <meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
@@ -78,16 +95,16 @@
 </head>
 
 <body>
-    <div id="fh5co-wrapper">
+    <div id="fh5co-wrapper" style="background-color: #6d7677!important;">
         <div id="fh5co-page">
             <div id="fh5co-header">
                 <header id="fh5co-header-section">
                     <div class="container">
-                        <div class="nav-header">
+                        <div class="nav-header" style="background-color: #6d7677!important;">
 
                             <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
                             <h1 id="fh5co-logo"><a href="index.html">Paradise S.A</a></h1>
-                            <nav id="fh5co-menu-wrap" role="navigation">
+                            <nav id="fh5co-menu-wrap" style="background-color: #6d7677!important;" role="navigation">
                                 <ul class="sf-menu" id="fh5co-primary-menu">
                                     <li><a class="active" href="index.html">Home</a></li>
                                     <li>
@@ -108,23 +125,10 @@
 
                         </div>
                     </div>
+
                 </header>
 
             </div>
-            <!-- end:fh5co-header -->
-            <aside id="fh5co-hero" class="js-fullheight">
-                <div class="flexslider js-fullheight">
-                    <ul class="slides">
-                        <li style="background-image: url(images/slide.jpg);">
-                            <div class="overlay-gradient"></div>
-                            <div class="container">
-
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-            </aside>
 
             <div id="fh5co-contact-section">
                 <div class="row">
@@ -133,45 +137,31 @@
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-12">
-                            <h3>Nuestros hoteles</h3>
-                            <p>Contactese con nosotros, estaremos gustosos de atenderlo.</p>
-                            <ul class="contact-info">
-                                <li><i class="ti-map"></i></li>
-                                <li><i class="ti-mobile"></i>Call Center: 1800 265 256</li>
-                                <li><i class="ti-envelope"></i><a href="#">info@hotelparadise.com</a></li>
-                                <li><i class="ti-home"></i><a href="#">www.hotelparadise.com</a></li>
-                            </ul>
+
+                            <p>Imagen</p>
+
                         </div>
 
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Name">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Email">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <textarea name="" class="form-control" id="" cols="30" rows="7" placeholder="Message"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="submit" value="Send Message" class="btn btn-primary">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        Imagen
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-12">
+
+                            <p>Imagen</p>
+
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYIUcBjvtK-h0Wa5IhCHumTaAA_lErH8s&callback=initMap">
+            </script>
 
 
             <footer id="footer" class="fh5co-bg-color">
@@ -257,9 +247,7 @@
     <!-- Google Map 
  //  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
     -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYIUcBjvtK-h0Wa5IhCHumTaAA_lErH8s&callback=initMap">
-    </script>
-    <script src="js/google_map.js"></script>
+    <script src="js/InfoMapaHoteles.js"></script>
 
     <script src="js/custom.js"></script>
 
