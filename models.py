@@ -1,5 +1,6 @@
 from django.db import models
-from datetime import datetime  
+from datetime import datetime
+from decimal import *
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
@@ -57,3 +58,30 @@ class ventas(models.Model):
     cantidad = models.CharField(max_length=200, default='SOME STRING')
     tipo_habitacion = models.CharField(max_length=200, default='SOME STRING')
     id_cliente = models.CharField(max_length=200, default='SOME STRING')
+
+class ventas_totales(models.Model):
+    id_hotel = models.IntegerField(default=0)
+    anio = models.CharField(max_length=200, default='SOME STRING')
+    mes = models.CharField(max_length=200, default='SOME STRING')
+    total = models.CharField(max_length=200, default='SOME STRING')
+    cant_facturas = models.CharField(max_length=200, default='SOME STRING')
+    normal = models.CharField(max_length=200, default='SOME STRING')
+    suit = models.CharField(max_length=200, default='SOME STRING')
+    salon = models.CharField(max_length=200, default='SOME STRING')
+    cliente = models.CharField(max_length=200, default='SOME STRING')
+    Italia =  models.CharField(max_length=200, default='SOME STRING')
+    Espania =  models.CharField(max_length=200, default='SOME STRING')
+    Ecuador =  models.CharField(max_length=200, default='SOME STRING')
+    Mexico =  models.CharField(max_length=200, default='SOME STRING')
+    Brasil =  models.CharField(max_length=200, default='SOME STRING')
+    Peru =  models.CharField(max_length=200, default='SOME STRING')
+    Colombia =  models.CharField(max_length=200, default='SOME STRING')
+    Venezuela =  models.CharField(max_length=200, default='SOME STRING')
+
+class suma_habitacion(models.Model):
+    id_hotel = models.IntegerField(default=0)
+    anio = models.IntegerField(default=0)
+    mes = models.IntegerField(default=0)
+    habitacion = models.CharField(max_length=200, default='SOME STRING')
+    numero_facturas = models.IntegerField(default=0)
+    total_habitacion = models.IntegerField(default=0)
