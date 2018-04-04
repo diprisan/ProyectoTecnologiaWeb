@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+
+<head>
+
+    <script>
+          var map;
+  var myLatlng = new google.maps.LatLng(-2.168773, -79.917083);
+  var beaches;
+  var infowindow1;
+  var infowindow2;
+  var infowindow3;
+  var infowindow4;
+  var infowindow5;
+  var arreglo=new Array(4);
+
+  function initMap() {
+
+      /* Creamos ventanas de información de las distribuidoras */
+
+      infowindow1 = new google.maps.InfoWindow({
+          content: "<h2>Guayaquil</h2> <a href='#' onclick=' cambiargraph(1);llamarGraph1(); return false;'>Ventas por Habitaciones  2017-2018</a><br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(1,\"Guayaquil\"); return false;'>Ventas por Salones 2017-2018</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(1,\"Guayaquil\"); return false;'>Cantidad de Clientes 2017-2018</a> <br />"
+      });
+      infowindow2 = new google.maps.InfoWindow({
+          content: "<h2>Manta</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas por Habitaciones Por Distribuidoras 2017-2018</a><br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(2, \"Manta\"); return false;'>Ventas por Salones 2017-2018</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(2,\"Manta\"); return false;'>Cantidad de Clientes 2017-2018</a> <br />"
+      });
+      infowindow3 = new google.maps.InfoWindow({
+          content: "<h2>Atacames</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas por Habitaciones Por Distribuidoras 2017-2018</a> <br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(3, \"Atacames\"); return false;'>Ventas por Salones 2017-2018</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(3,\" Atacames\"); return false;'>Cantidad de Clientes 2017-2018</a> <br />"
+      });
+      infowindow4 = new google.maps.InfoWindow({
+          content: "<h2>Salinas</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas por Habitaciones Por Distribuidoras 2017-2018</a><br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(4, \"Salinas\"); return false;'>Ventas por Salones 2017-2018</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(4,\"Salinas\"); return false;'>Cantidad de Clientes 2017-2018</a> <br />"
+      });
+      infowindow5 = new google.maps.InfoWindow({
+          content: "<h2>Salinas</h2> <a href='#' onclick='cambiargraph(1);llamarGraph1(); return false;'>Ventas por Habitaciones Por Distribuidoras 2017-2018</a><br />" +
+              "<a href='#' onclick='cambiargraph(2);llamarGraph2(5, \"Salinas\"); return false;'>Ventas por Salones 2017-2018</a> <br />" +
+              "<a href='#' onclick='cambiargraph(3);llamarGraph3(5,\"Salinas\"); return false;'>Cantidad de Clientes 2017-2018</a> <br />"
+      });
+
+      /* Beaches son los puntos en el mapa de la distribuidoras */
+
+      beaches = [
+          ['Gye', -2.188050, -79.891388, 1, ''],
+          ['Manta', -0.940794, -80.735451, 2, ''],
+          ['Atacames', 0.890369, -79.817292, 3, ''],
+          ['Salinas', -2.2001875, -80.976634, 4, ''],
+
+      ];
+
+      map = new google.maps.Map(document.getElementById('map'), {
+          center: {
+              lat: -2.168773,
+              lng: -79.917083
+          },
+
+
+          //center: { lat: -33.9, lng: 151.2 },
+          zoom: 7
+      });
+
+      /* Llamamos a función para crear las marcas de las ditribuidoras en el mapa */
+      setMarkers(map);
+
+      google.maps.event.addListener(map, 'click', closeInfoWindow);
+
+      //alert('Hola');
+
+  }
+
+  function Graficar2() {
+      // Build the chart
+      Highcharts.chart('container1', {
+          chart: {
+              plotBackgroundColor: null,
+              plotBorderWidth: null,
+              plotShadow: false,
+              type: 'pie'
+          },
+          title: {
+              text: 'Browser market shares in January, 2018'
+          },
+          tooltip: {
+              pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          },
+          plotOptions: {
+              pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                      enabled: false
+                  },
+                  showInLegend: true
+              }
+          },
+          series: [{
+              name: 'Brands',
+              colorByPoint: true,
+              data: [{
+                  name: 'Chrome',
+                  y: 61.41,
+                  sliced: true,
+                  selected: true
+              }, {
+                  name: 'Internet Explorer',
+                  y: 11.84
+              }, {
+                  name: 'Firefox',
+                  y: 10.85
+              }, {
+                  name: 'Edge',
+                  y: 4.67
+              }, {
+                  name: 'Safari',
+                  y: 4.18
+              }, {
+                  name: 'Other',
+                  y: 7.05
+              }]
+          }]
+      })
+  }
+
+
+
+  function closeInfoWindow() {
+
+      infowindow1.close();
+      infowindow2.close();
+      infowindow3.close();
+      infowindow4.close();
+      infowindow5.close();
+
+  }
+  // Data for the markers consisting of a name, a LatLng and a zIndex for the
+  // order in which these markers should display on top of each other.
+  function llamarPresupuestoVentas() {
+            $.ajax({
+
+            });
+                            }
+
+  function pintar(home)
+  {
+     FOTO.Slider.baseURL = '../../../static/images/galeria/'+home+'/';
+     FOTO.Slider.bucket =
+                {
+                    'default': {
+                        0: {'thumb': 't_0.jpg', 'main': '0.jpg'},
+                        1: {'thumb': 't_1.jpg', 'main': '1.jpg'},
+                        2: {'thumb': 't_2.jpg', 'main': '2.jpg'},
+                        3: {'thumb': 't_3.jpg', 'main': '3.jpg'}
+                    }
+                };
+
+
+    //or set our images by the bucket importer
+    var ids = new Array(0,1,2,3);
+    FOTO.Slider.importBucketFromIds('default',ids);
+    FOTO.Slider.reload('default');
+    FOTO.Slider.preloadImages('default');
+    FOTO.Slider.enableSlideshow('default');
+  }
+
+function ExtraeFotos(variable) {
+
+      var cont=0;
+      var valor="";
+      arreglo=new Array(4);
+    console.log("click");
+     $.ajax({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/polls/verGaleria/'+variable+'/',
+        dataType: "text",
+        async : false,
+        //dataType: "json",
+        success: function(data) {
+                 var json = JSON.stringify(eval("(" + data + ")"));
+                 var jdata = JSON.parse(json);
+                 //set images by filling our bucket directly
+
+                 $.each(jdata, function (key, data)
+                 {
+                     //alert(jdata[key].nombre_foto);
+                     cont=key;
+                     arreglo.push(jdata[key].nombre_foto);
+                     //valor=jdata[key].nombre_foto;
+                     //alert(key);
+                     //presupuestotal += Number(jdata[key].valorpresupuesto);
+                     //ventatotal += Number(jdata[key].valorreal);
+                 });
+                               }
+
+    });
+    pintar(variable);
+};
+ function doStuff()
+{
+  //do some things
+  setTimeout(continueExecution, 30000) //wait ten seconds before continuing
+}
+
+function ExtraeFotos(variable) {
+
+      var cont=0;
+      var valor="";
+      arreglo=new Array(4);
+
+     $.ajax({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/polls/verGaleria/'+variable+'/',
+        dataType: "text",
+        async : false,
+        //dataType: "json",
+        success: function(data) {
+                 var json = JSON.stringify(eval("(" + data + ")"));
+                 var jdata = JSON.parse(json);
+                 //set images by filling our bucket directly
+
+                 $.each(jdata, function (key, data)
+                 {
+                     //alert(jdata[key].nombre_foto);
+                     cont=key;
+                     arreglo.push(jdata[key].nombre_foto);
+                     //valor=jdata[key].nombre_foto;
+                     //alert(key);
+                     //presupuestotal += Number(jdata[key].valorpresupuesto);
+                     //ventatotal += Number(jdata[key].valorreal);
+                 });
+                               }
+
+    });
+    pintar(variable);
+};
+ function doStuff()
+{
+  //do some things
+  setTimeout(continueExecution, 30000) //wait ten seconds before continuing
+}
+
+
+
+function Graficar(variable) {  ///Variable # de hotel
+
+      var cont=0;
+      var valor="";
+      arreglo=new Array(12);
+      arreglo2=new Array(12);
+      var seriesArr = [];
+      var seriesArr2 = [];
+      var seriesArreglo = [];
+      var meses = ['Ene','Feb','Mar','Apr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+       var series = {
+            name: "Noviembre",
+            data: []
+        };
+
+    console.log("click");
+     $.ajax({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/polls/verVenta/'+variable+'/2015/',
+        dataType: "text",
+        async : false,
+        //dataType: "json",
+        success: function(data) {
+                 var json = JSON.stringify(eval("(" + data + ")"));
+                 var jdata = JSON.parse(json);
+                 //set images by filling our bucket directly
+
+
+                 /* $.each(jdata, function (key, data)
+                 {
+                     //alert(jdata[key].total);
+                     cont=key;
+                     arreglototal.push(jdata[key].total);
+                     arreglocant_facturas.push(jdata[key].cant_facturas);
+                     //valor=jdata[key].nombre_foto;
+                     //alert(key);
+                     //presupuestotal += Number(jdata[key].valorpresupuesto);
+                     //ventatotal += Number(jdata[key].valorreal);
+
+                 });*/
+
+                   $.each(jdata, function (key, data)
+                   {
+                                var series = {
+                                   // name: 'Cantidad de facturas',
+                                    data: []
+                                };
+
+                                var series2 = {
+                                    //name: 'Total',
+                                    data: []
+                                };
+
+
+                                series.data.push(
+                                    Number(jdata[key].Ecuador)
+
+                                );
+
+                                series2.data.push(
+                                    Number(jdata[key].Brasil)
+
+                                );
+
+
+                                seriesArr.push(series);
+                                seriesArreglo.push(series2);
+
+                   });
+                   //seriesArr.push(seriesArreglo);
+                 /*alert(arreglototal[1]);
+                 alert(arreglototal[2]);
+                 arreglototal=[1,2,3,4,5,6,7,8,9,1,2,3];*/
+                $('#chart_container').highcharts({
+                        chart: {
+                        type: 'bar'
+                        },
+                        title: {
+                        text: 'Tendencias de visitas por país'
+                        },
+                        xAxis: {
+                        categories: meses
+                        },
+                        yAxis: {
+                        title: {
+                        text: 'numbers'
+                        }
+                        },
+                        series: [{
+                            name: 'Ecuador',
+                            //data: [arreglo[0],arreglo[1],arreglo[2],arreglo[3],arreglo[4],arreglo[5],arreglo[6]]
+                            data: [seriesArr[0].data,seriesArr[1].data,
+                                   seriesArr[2].data,seriesArr[3].data,
+                                   seriesArr[4].data,seriesArr[5].data,
+                                   seriesArr[6].data,seriesArr[7].data,
+                                   seriesArr[8].data,seriesArr[9].data,
+                                   seriesArr[10].data,seriesArr[11].data
+                                  ]
+                            }, {
+                            name: 'Brasil',
+                            //data: [arreglo2[0],arreglo2[1],arreglo2[2],arreglo2[3],arreglo2[4],arreglo2[5],arreglo2[6]]
+                            data: [seriesArreglo[0].data,seriesArreglo[1].data,
+                                   seriesArreglo[2].data,seriesArreglo[3].data,
+                                   seriesArreglo[4].data,seriesArreglo[5].data,
+                                   seriesArreglo[6].data,seriesArreglo[7].data,
+                                   seriesArreglo[8].data,seriesArreglo[9].data,
+                                   seriesArreglo[10].data,seriesArreglo[11].data]
+                            }]
+                        })
+
+        }
+
+
+
+    });
+
+    //pintar(variable);
+};
+
+
+
+function GraficarVentasClientes(variable) {  ///Variable # de hotel
+
+      var cont=0;
+      var valor="";
+      arreglo=new Array(12);
+      arreglo2=new Array(12);
+      var seriesArr = [];
+      var seriesArr2 = [];
+      var seriesArreglo = [];
+      var meses = ['Ene','Feb','Mar','Apr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+       var series = {
+            name: "Noviembre",
+            data: []
+        };
+
+    console.log("click");
+     $.ajax({
+        method: 'GET',
+        url: 'http://127.0.0.1:8000/polls/verVenta/'+variable+'/2015/',
+        dataType: "text",
+        async : false,
+        //dataType: "json",
+        success: function(data) {
+                 var json = JSON.stringify(eval("(" + data + ")"));
+                 var jdata = JSON.parse(json);
+                 //set images by filling our bucket directly
+
+
+                 /* $.each(jdata, function (key, data)
+                 {
+                     //alert(jdata[key].total);
+                     cont=key;
+                     arreglototal.push(jdata[key].total);
+                     arreglocant_facturas.push(jdata[key].cant_facturas);
+                     //valor=jdata[key].nombre_foto;
+                     //alert(key);
+                     //presupuestotal += Number(jdata[key].valorpresupuesto);
+                     //ventatotal += Number(jdata[key].valorreal);
+
+                 });*/
+
+                   $.each(jdata, function (key, data)
+                   {
+                                var series = {
+                                   // name: 'Cantidad de facturas',
+                                    data: []
+                                };
+
+                                var series2 = {
+                                    //name: 'Total',
+                                    data: []
+                                };
+
+
+                                series.data.push(
+                                    Number(jdata[key].cant_facturas)
+
+                                );
+
+                                series2.data.push(
+                                    Number(jdata[key].total)
+
+                                );
+
+
+                                seriesArr.push(series);
+                                seriesArreglo.push(series2);
+
+                   });
+                   //seriesArr.push(seriesArreglo);
+                 /*alert(arreglototal[1]);
+                 alert(arreglototal[2]);
+                 arreglototal=[1,2,3,4,5,6,7,8,9,1,2,3];*/
+            Highcharts.chart('container', {
+                chart: {
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: 'Evolucion de Ventas vs Clientes'
+                },
+                subtitle: {
+                    text: 'Tendencia'
+                },
+                xAxis: [{
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    crosshair: true
+                }],
+                yAxis: [{ // Primary yAxis
+                    labels: {
+                        format: '#{value}',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    },
+                    title: {
+                        text: 'Número de facturas',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    }
+                }, { // Secondary yAxis
+                    title: {
+                        text: 'Ventas',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    labels: {
+                        format: '${value}',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    opposite: true
+                }],
+                tooltip: {
+                    shared: true
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'left',
+                    x: 520,
+                    verticalAlign: 'top',
+                    y: 60,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                },
+                series: [{
+                    name: 'Ventas',
+                    type: 'column',
+                    yAxis: 1,
+                    data: [seriesArreglo[0].data,seriesArreglo[1].data,
+                                   seriesArreglo[2].data,seriesArreglo[3].data,
+                                   seriesArreglo[4].data,seriesArreglo[5].data,
+                                   seriesArreglo[6].data,seriesArreglo[7].data,
+                                   seriesArreglo[8].data,seriesArreglo[9].data,
+                                   seriesArreglo[10].data,seriesArreglo[11].data],
+                    tooltip: {
+                        valueSuffix: ' $'
+                    }
+
+                }, {
+                    name: 'Numero de facturas',
+                    type: 'spline',
+                    data: [seriesArr[0].data,seriesArr[1].data,
+                                   seriesArr[2].data,seriesArr[3].data,
+                                   seriesArr[4].data,seriesArr[5].data,
+                                   seriesArr[6].data,seriesArr[7].data,
+                                   seriesArr[8].data,seriesArr[9].data,
+                                   seriesArr[10].data,seriesArr[11].data],
+                    tooltip: {
+                        valueSuffix: ''
+                    }
+                }]
+            });
+
+        }
+
+
+
+    });
+
+    //pintar(variable);
+};
+
+
+
+
+
+
+function continueExecution()
+{
+   //finish doing things after the pause
+}
+  function setMarkers(map) {
+      // Adds markers to the map.
+
+      // Marker sizes are expressed as a Size of X,Y where the origin of the image
+      // (0,0) is located in the top left of the image.
+
+      // Origins, anchor positions and coordinates of the marker increase in the X
+      // direction to the right and in the Y direction down.
+      var image = {
+          //  url: 'https://mt.googleapis.com/vt/icon/name=icons/onion/bank-dollar.png',
+          //url: 'images/loc.png',
+          // This marker is 20 pixels wide by 32 pixels high.
+          size: new google.maps.Size(32, 32),
+          // The origin for this image is (0, 0).
+          origin: new google.maps.Point(0, 0),
+          // The anchor for this image is the base of the flagpole at (0, 32).
+          anchor: new google.maps.Point(32, 32)
+      };
+      // Shapes define the clickable region of the icon. The type defines an HTML
+      // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+      // The final coordinate closes the poly by connecting to the first coordinate.
+
+      for (var i = 0; i < beaches.length; i++) {
+          //alert(beaches.length);
+          var beach = beaches[i];
+
+          if (i == 0) {
+              var marker0 = new google.maps.Marker({
+                  position: {
+                      lat: beach[1],
+                      lng: beach[2]
+                  },
+                  map: map,
+                  //icon: image,
+                  icon: '../../../static/images/loc.png',
+                  title: beach[0],
+                  zIndex: beach[3]
+              });
+              marker0.addListener('click', function() {
+                  infowindow1.open(map, marker0);
+                  infowindow2.close();
+                  infowindow3.close();
+                  infowindow4.close();
+                  infowindow5.close();
+
+                  ExtraeFotos(1);
+                  Graficar(1);
+                  GraficarVentasClientes(1);
+                  Graficar2();
+              });
+          }
+          if (i == 1) {
+              var marker1 = new google.maps.Marker({
+                  position: {
+                      lat: beach[1],
+                      lng: beach[2]
+                  },
+                  map: map,
+                  //  icon: image,
+                  icon: '../../../static/images/loc.png',
+                  title: beach[0],
+                  zIndex: beach[3]
+              });
+              marker1.addListener('click', function() {
+
+                  infowindow1.close();
+                  infowindow3.close();
+                  infowindow4.close();
+                  infowindow5.close();
+                  infowindow2.open(map, marker1);
+				  ExtraeFotos(2);
+				  Graficar(2);
+				  GraficarVentasClientes(2);
+				  Graficar2();
+              });
+          }
+          if (i == 2) {
+              var marker2 = new google.maps.Marker({
+                  position: {
+                      lat: beach[1],
+                      lng: beach[2]
+                  },
+                  map: map,
+                  //  icon: image,
+                  icon: '../../../static/images/loc.png',
+                  title: beach[0],
+                  zIndex: beach[3]
+              });
+              marker2.addListener('click', function() {
+                  infowindow2.close();
+                  infowindow1.close();
+                  infowindow4.close();
+                  infowindow5.close();
+                  infowindow3.open(map, marker2);
+				  ExtraeFotos(3);
+				  Graficar(3);
+				  GraficarVentasClientes(3);
+				  Graficar2();
+              });
+          }
+          if (i == 3) {
+              var marker3 = new google.maps.Marker({
+                  position: {
+                      lat: beach[1],
+                      lng: beach[2]
+                  },
+                  map: map,
+                  //  icon: image,
+                  icon: '../../../static/images/loc.png',
+                  title: beach[0],
+                  zIndex: beach[3]
+              });
+              marker3.addListener('click', function() {
+                  infowindow2.close();
+                  infowindow3.close();
+                  infowindow5.close();
+                  infowindow1.close();
+                  infowindow5.open(map, marker3);
+                  ExtraeFotos(3);
+				  Graficar(3);
+				  GraficarVentasClientes(3);
+				  Graficar2();
+              });
+          }
+          if (i == 4) {
+              var marker4 = new google.maps.Marker({
+                  position: {
+                      lat: beach[1],
+                      lng: beach[2]
+                  },
+                  map: map,
+                  // icon: image,
+                  icon: '../../../static/images/loc.png',
+                  title: beach[0],
+                  zIndex: beach[3]
+              });
+              marker4.addListener('click', function() {
+                  infowindow2.close();
+                  infowindow3.close();
+                  infowindow4.close();
+                  infowindow1.close();
+                  infowindow5.open(map, marker4);
+                  ExtraeFotos(3);
+				  Graficar(1);
+				  GraficarVentasClientes(1);
+				  Graficar2();
+
+              });
+          }
+      }
+  }
+
+
+  function cambiargraph(id) {
+
+
+      $("#graph1").empty();
+      $("#graph2").empty();
+      $("#graph3").empty();
+
+      $("#graph1").hide();
+      $("#graph2").hide();
+      $("#graph3").hide();
+
+      if (id == 1) {
+
+          $("#graph1").show();
+      }
+      if (id == 2) {
+          $("#graph2").show();
+      }
+      if (id == 3) {
+          $("#graph3").show();
+      }
+
+
+  }
+
+
+
+    </script>
+
+
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hotel Paradise&mdash; </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
+    <meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+    <meta name="author" content="FREEHTML5.CO" />
+
+    <!--
+	//////////////////////////////////////////////////////
+
+	FREE HTML5 TEMPLATE
+	DESIGNED & DEVELOPED by FREEHTML5.CO
+
+	Website: 		http://freehtml5.co/
+	Email: 			info@freehtml5.co
+	Twitter: 		http://twitter.com/fh5co
+	Facebook: 		https://www.facebook.com/fh5co
+
+	//////////////////////////////////////////////////////
+	 -->
+
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:title" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="" />
+    <meta property="og:description" content="" />
+    <meta name="twitter:title" content="" />
+    <meta name="twitter:image" content="" />
+    <meta name="twitter:url" content="" />
+    <meta name="twitter:card" content="" />
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700italic,900,700,900italic' rel='stylesheet' type='text/css'> -->
+
+    <!-- Stylesheets -->
+    <!-- Dropdown Menu -->
+    <link rel="stylesheet" href="../../../static/css/superfish.css">
+    <!-- Owl Slider -->
+    <!-- <link rel="stylesheet" href="../../../static/css/owl.carousel.css"> -->
+    <!-- <link rel="stylesheet" href="../../../static/css/owl.theme.default.min.css"> -->
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="../../../static/css/bootstrap-datepicker.min.css">
+    <!-- CS Select -->
+    <link rel="stylesheet" href="../../../static/css/cs-select.css">
+    <link rel="stylesheet" href="../../../static/css/cs-skin-border.css">
+
+    <!-- Themify Icons -->
+    <link rel="stylesheet" href="../../../static/css/themify-icons.css">
+    <!-- Flat Icon -->
+    <link rel="stylesheet" href="../../../static/css/flaticon.css">
+    <!-- Icomoon -->
+    <link rel="stylesheet" href="../../../static/css/icomoon.css">
+    <!-- Flexslider  -->
+    <link rel="stylesheet" href="../../../static/css/flexslider.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="../../../static/css/style.css">
+
+    <!-- Modernizr JS -->
+    <script src="../../../static/js/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+	<script src="../../../static/js/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+
+    <div id="fh5co-wrapper" style="background-color: #6d7677!important;">
+        <div id="fh5co-page">
+            <div id="fh5co-header">
+                <header id="fh5co-header-section">
+                    <div class="container">
+                        <div class="nav-header" style="background-color: #6d7677!important;">
+
+                            <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+                            <h1 id="fh5co-logo"><a href="index.html">Paradise S.A</a></h1>
+                            <nav id="fh5co-menu-wrap" style="background-color: #6d7677!important;" role="navigation">
+                                <ul class="sf-menu" id="fh5co-primary-menu">
+                                    <li><a class="active" href="index.html">Home</a></li>
+                                    <li>
+                                        <a href="hotel.html" class="fh5co-sub-ddown">Hotel</a>
+                                        <ul class="fh5co-sub-menu">
+                                            <li><a href="#">Hotel Paradise Manta</a></li>
+                                            <li><a href="#">Hotel Paradise Guayaquil</a></li>
+                                            <li><a href="#">Hotel Paradise Atacames</a></li>
+                                            <li><a href="#">Hotel Paradise Salinas</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="services.html">Services</a></li>
+                                    <li><a href="blog.html">Galeria</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+
+                </header>
+
+            </div>
+
+
+            <div id="fh5co-contact-section">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="map" class="fh5co-map"></div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="photoslider" id="default"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div style="width:100%; height:400px;" id="chart_container">
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div style="width:100%; height:400px;" id="container">
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYIUcBjvtK-h0Wa5IhCHumTaAA_lErH8s&callback=initMap">
+            </script>
+
+
+            <footer id="footer" class="fh5co-bg-color">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="copyright">
+                                <p><small>&copy; 2018 Tecnología Web. <br>
+                                    All Rights Reserved. <br>
+                        MSIG - Espol</a>
+                        </small></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h3>Compañia</h3>
+                                    <ul class="link">
+                                        <li><a href="#">Acerca de</a></li>
+                                        <li><a href="hotel.html">Hotel</a></li>
+                                        <li><a href="services.html">Servicios</a></li>
+                                        <li><a href="blog.html">Galeria</a></li>
+                                        <li><a href="login.html">Login</a></li>
+                                        <li><a href="contact.html">Contactos</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h3>Subscribe</h3>
+                                    <p>Ingrese su correo para obtener información de nuestras promociones </p>
+                                    <form action="#" id="form-subscribe">
+                                        <div class="form-field">
+                                            <input type="email" placeholder="Email Address" id="email">
+                                            <input type="submit" id="submit" value="Send">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="social-icons">
+                                <li>
+                                    <a href="#"><i class="icon-twitter-with-circle"></i></a>
+                                    <a href="#"><i class="icon-facebook-with-circle"></i></a>
+                                    <a href="#"><i class="icon-instagram-with-circle"></i></a>
+                                    <a href="#"><i class="icon-linkedin-with-circle"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+        </div>
+        <!-- END fh5co-page -->
+
+    </div>
+    <!-- END fh5co-wrapper -->
+    </div>
+</body>
+    <!-- Javascripts-->
+    <script src="../../../static/js/jquery-2.1.4.min.js"></script>
+    <!-- Dropdown Menu -->
+    <script src="../../../static/js/hoverIntent.js"></script>
+    <script src="../../../static/js/superfish.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../../static/js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="../../../static/js/jquery.waypoints.min.js"></script>
+    <!-- Counters -->
+    <script src="../../../static/js/jquery.countTo.js"></script>
+    <!-- Stellar Parallax -->
+    <script src="../../../static/js/jquery.stellar.min.js"></script>
+    <!-- Owl Slider -->
+    <!-- // <script src="../../../static/js/owl.carousel.min.js"></script> -->
+    <!-- Date Picker -->
+    <script src="../../../static/js/bootstrap-datepicker.min.js"></script>
+    <!-- CS Select -->
+    <script src="../../../static/js/classie.js"></script>
+    <script src="../../../static/js/selectFx.js"></script>
+    <!-- Flexslider -->
+    <script src="../../../static/js/jquery.flexslider-min.js"></script>
+    <!-- Google Map
+ //  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
+    -->
+    <script src="../../../static/js/InfoMapaHoteles.js"></script>
+
+    <script src="../../../static/js/custom.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="../../../static/css/photoslider.css" />
+    <script type="text/javascript" src="../../../static/js/photoslider.js"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>-->
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+</html>

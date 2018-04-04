@@ -14,4 +14,8 @@ urlpatterns = [
     path('detailsLogin/<user_id>/<pass_id>/', views.detailsLogin,  name='detailsLogin'),
 	path('detailsExcep/<int:question_id>', views.detailsExcep,  name='detailsExcep'),
     path('login2/', views.login2, name='login2'),
+    path('reporte/', views.reporte, name='reporte'),
+    path('Rootindex/', views.Rootindex, name='Rootindex'),
+    path('verGaleria/<int:idGaleria>/', views.verGaleria,  name='verGaleria'),
+    path('verVenta/<int:idHotel>/<int:idanio>/', views.verVenta, name='verVenta'),
 ]

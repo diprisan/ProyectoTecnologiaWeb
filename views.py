@@ -9,11 +9,16 @@ from django.contrib.auth import login as login_django
 from django.template import Template , Context
 from django.shortcuts import render_to_response
 from django.template                import RequestContext
-
+from json import dumps
 from .models import Usuarios
 from .models import Question
+from .models import galeria
+from .models import ventas_totales
+from django.http import JsonResponse
+#from django.core import serializers
 import sys
-
+import json
+from rest_framework import serializers
 def index(request):
     return HttpResponse("Hello, world. You're at twhe polls index.")
 	
@@ -43,6 +48,18 @@ def indexRender(request):
 
 def home(request):
     template = loader.get_template('polls/home.html')
+    context = {
+           }
+    return HttpResponse(template.render(context, request))
+
+def Rootindex(request):
+    template = loader.get_template('polls/Rootindex.html')
+    context = {
+           }
+    return HttpResponse(template.render(context, request))
+
+def reporte(request):
+    template = loader.get_template('polls/Reporte.html')
     context = {
            }
     return HttpResponse(template.render(context, request))
@@ -103,7 +120,7 @@ def detailsLogin(request, user_id ,pass_id):
         #return render(request, 'polls/index.html', context)
         if userId:
             context = {'latest_question_list': userId}
-            return redirect('http://127.0.0.1:8000/polls/home/')
+            return redirect('http://127.0.0.1:8000/polls/reporte/')
 
         else:
             valor="No hay registros con coindicencias"
@@ -111,4 +128,49 @@ def detailsLogin(request, user_id ,pass_id):
     except Exception as e:
                 valor="failed to: %s" % (str(e))
     return HttpResponse(valor)
+
+def verGaleria(request, idGaleria):
+    if request.method == 'GET':
+        try:
+            galerJson = galeria.objects.filter(id_hotel=idGaleria)
+            if galerJson:
+                serializer = GaleriaSerializer(galerJson, many=True)
+                return JsonResponse(serializer.data, safe=False)
+                #return HttpResponse("hola")
+            else:
+                return HttpResponse("No hay datos")
+        except Exception as e:
+                valor="falla en galeria to: %s" % (str(e))
+                return HttpResponse(valor)
+    else:
+        return HttpResponse("Peticion no valida")
+
+class GaleriaSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = galeria
+		fields = '__all__'
+
+class ventaSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = ventas_totales
+		fields = '__all__'
+
+def verVenta (request, idHotel, idanio):
+    if request.method == 'GET':
+        try:
+            ventasJson = ventas_totales.objects.filter(id_hotel=idHotel).filter(anio=idanio)
+
+            if ventasJson:
+                serializer = ventaSerializer(ventasJson, many=True)
+                #print ("hola2")
+                return JsonResponse(serializer.data, safe=False)
+                #return HttpResponse(ventasJson.normal)
+            else:
+                return HttpResponse("No hay datos")
+        except Exception as e:
+            valor = "falla en ventas to: %s" % (str(e))
+            return HttpResponse(valor)
+    else:
+        return HttpResponse("Peticion no valida")
+
                   
