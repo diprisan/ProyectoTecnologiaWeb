@@ -72,6 +72,7 @@ class ventas_totales(models.Model):
     Italia =  models.CharField(max_length=200, default='SOME STRING')
     Espania =  models.CharField(max_length=200, default='SOME STRING')
     Ecuador =  models.CharField(max_length=200, default='SOME STRING')
+    Extranjeros = models.CharField(max_length=200, default='SOME STRING')
     Mexico =  models.CharField(max_length=200, default='SOME STRING')
     Brasil =  models.CharField(max_length=200, default='SOME STRING')
     Peru =  models.CharField(max_length=200, default='SOME STRING')
@@ -85,3 +86,15 @@ class suma_habitacion(models.Model):
     habitacion = models.CharField(max_length=200, default='SOME STRING')
     numero_facturas = models.IntegerField(default=0)
     total_habitacion = models.IntegerField(default=0)
+
+class nacionalesextranjeros(models.Model):
+    id_hotel = models.IntegerField(default=0)
+    anio = models.IntegerField(default=0)
+    Italia = models.CharField(max_length=200, default='SOME STRING')
+    Espania = models.CharField(max_length=200, default='SOME STRING')
+    Ecuador = models.CharField(max_length=200, default='SOME STRING')
+    Mexico = models.CharField(max_length=200, default='SOME STRING')
+    Brasil = models.CharField(max_length=200, default='SOME STRING')
+    Peru = models.CharField(max_length=200, default='SOME STRING')
+    Colombia = models.CharField(max_length=200, default='SOME STRING')
+    Venezuela = models.CharField(max_length=200, default='SOME STRING')

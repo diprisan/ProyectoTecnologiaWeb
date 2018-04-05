@@ -13,6 +13,7 @@ from json import dumps
 from .models import Usuarios
 from .models import Question
 from .models import galeria
+from .models import nacionalesextranjeros
 from .models import ventas_totales
 from django.http import JsonResponse
 #from django.core import serializers
@@ -58,12 +59,29 @@ def Rootindex(request):
            }
     return HttpResponse(template.render(context, request))
 
-def reporte(request):
-    template = loader.get_template('polls/Reporte.html')
+def reporte(request, user_id):
+    if "usuario" in request.session:
+        #template = loader.get_template('polls/Reporte.html')
+        context = {
+            'user_id': user_id
+           }
+        return render(request, 'polls/Reporte.html', context)
+        #return HttpResponse(template.render(context, request))
+    else:
+        context = {}
+        return render(request, 'polls/no_sesion.html', context)
+
+def no_sesion(request):
+    template = loader.get_template('polls/no_sesion.html')
     context = {
            }
     return HttpResponse(template.render(context, request))
 
+def no_login(request):
+    template = loader.get_template('polls/no_login.html')
+    context = {
+           }
+    return HttpResponse(template.render(context, request))
 def login2(request):
     template = loader.get_template('polls/login2.html')
     context = {
@@ -120,10 +138,12 @@ def detailsLogin(request, user_id ,pass_id):
         #return render(request, 'polls/index.html', context)
         if userId:
             context = {'latest_question_list': userId}
-            return redirect('http://127.0.0.1:8000/polls/reporte/')
+            request.session["usuario"] = user_id
+            return redirect('http://127.0.0.1:8000/polls/reporte/'+user_id+'/')
 
         else:
-            valor="No hay registros con coindicencias"
+            return redirect('http://127.0.0.1:8000/polls/no_login/')
+
     #print ("The answer is", 2*2) id=question_id,
     except Exception as e:
                 valor="failed to: %s" % (str(e))
@@ -163,6 +183,29 @@ def verVenta (request, idHotel, idanio):
             if ventasJson:
                 serializer = ventaSerializer(ventasJson, many=True)
                 #print ("hola2")
+                return JsonResponse(serializer.data, safe=False)
+                #return HttpResponse(ventasJson.normal)
+            else:
+                return HttpResponse("No hay datos")
+        except Exception as e:
+            valor = "falla en ventas to: %s" % (str(e))
+            return HttpResponse(valor)
+    else:
+        return HttpResponse("Peticion no valida")
+
+class nacSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = nacionalesextranjeros
+		fields = '__all__'
+
+def vernac (request, idHotel, idanio):
+    if request.method == 'GET':
+        try:
+            nacJson = nacionalesextranjeros.objects.filter(id_hotel=idHotel).filter(anio=idanio)
+
+            if nacJson:
+                serializer = nacSerializer(nacJson, many=True)
+                print ("hola2")
                 return JsonResponse(serializer.data, safe=False)
                 #return HttpResponse(ventasJson.normal)
             else:
